@@ -1,11 +1,22 @@
+import os
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy.orm import sessionmaker, declarative_base
 
-DB_URL = "mysql+pymysql://Ntdung:123456@localhost:3306/fastapi_db"
+load_dotenv()
 
-engine = create_engine(DB_URL, echo=True)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+DB_URL = os.getenv("DB_URL")
+
+engine = create_engine(DB_URL)
+
+SessionLocal = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine
+)
+
 Base = declarative_base()
+
 
 def get_db():
     db = SessionLocal()
